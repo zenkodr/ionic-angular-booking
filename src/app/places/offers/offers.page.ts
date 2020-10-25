@@ -13,6 +13,7 @@ import {Subscription} from 'rxjs';
 export class OffersPage implements OnInit, OnDestroy {
     offers: Array<Place>;
     private placesSub: Subscription;
+    isLoading: boolean = false;
 
     constructor(private placesService: PlacesService,
                 private router: Router) {
@@ -25,6 +26,13 @@ export class OffersPage implements OnInit, OnDestroy {
     }
 
     // Better update of comcponents to fix the issue of caching
+    ionViewWillEnter() {
+        this.isLoading = true;
+        this.placesService.fetchPlaces().subscribe(() => {
+            this.isLoading = false;
+        });
+    }
+
     ionViewDidEnter() {
 
     }
